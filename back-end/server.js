@@ -19,14 +19,16 @@ const upload = multer({
 });
 
 // Create a scheme for items in the museum: a title and a path to an image.
-const itemSchema = new mongoose.Schema({
+const designSchema = new mongoose.Schema({
   title: String,
   path: String,
-  description: String,
+  user: String,
+  type: String,
+  code: String,
 });
 
 // Create a model for items in the museum.
-const Item = mongoose.model('Item', itemSchema);
+const Item = mongoose.model('Item', designSchema);
 
 
 // Upload a photo. Uses the multer middleware for the upload and then returns
@@ -46,8 +48,11 @@ app.post('/api/items', async (req, res) => {
   const item = new Item({
     title: req.body.title,
     path: req.body.path,
-    description: req.body.description,
+    user: req.body.user,
+    type: req.body.type,
+    code: req.body.code,
   });
+  console.log(item);
   try {
     await item.save();
     res.send(item);
@@ -87,7 +92,7 @@ app.put('/api/items/:id', async (req, res) => {
       _id: req.params.id
     });
 	  item.title = req.body.title;
-    item.description = req.body.description;
+    item.user = req.body.user;
 	  item.save();
     res.sendStatus(200);
   } catch (error) {

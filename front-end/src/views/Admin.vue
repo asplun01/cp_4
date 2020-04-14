@@ -1,26 +1,35 @@
 <template>
 <div class="admin">
-      <h1>The Admin Page!</h1>
+      <h1>Add a Pattern</h1>
     <div class="heading">
-      <div class="circle">1</div>
+      <img src="leaf.png">
       <h2>Add an Item</h2>
     </div>
     <div class="add">
       <div class="form">
         <input v-model="title" placeholder="Title">
-        <input v-model="description" placeholder="Description">
+        <input v-model="user" placeholder="User Name">
+        <input v-model="code" placeholder="Design Code">
+        <select v-model="type" placeholder="Design Type">
+        <option>Dress</option>
+        <option>Shirt</option>
+        <option>Hat</option>
+        <option>Custom</option>
+        </select>
         <p></p>
         <input type="file" name="photo" @change="fileChanged">
         <button @click="upload">Upload</button>
       </div>
       <div class="upload" v-if="addItem">
         <h2>{{addItem.title}}</h2>
-        <h2>{{addItem.description}}</h2>
+        <h2>{{addItem.user}}</h2>
+        <h2>{{addItem.type}}</h2>
+        <h2> {{addItem.code}}</h2>
         <img :src="addItem.path" />
       </div>
     </div>
         <div class="heading">
-      <div class="circle">2</div>
+      <img src="leaf.png">
       <h2>Edit/Delete an Item</h2>
     </div>
     <div class="edit">
@@ -33,7 +42,7 @@
       </div>
       <div class="upload" v-if="findItem">
         <input v-model="findItem.title">
-        <input v-model="findItem.description">
+        <input v-model="findItem.user">
         <p></p>
         <img :src="findItem.path" />
       </div>
@@ -60,6 +69,11 @@
 .heading h2 {
   margin-top: 8px;
   margin-left: 10px;
+}
+
+.heading img {
+  width: 50px;
+  height: auto;
 }
 
 .add,
@@ -122,7 +136,9 @@ export default {
     data() {
     return {
       title: "",
-      description: "",
+      user: "",
+      type: "",
+      code: "",
       file: null,
       addItem: null,
       items: [],
@@ -148,11 +164,15 @@ export default {
         const formData = new FormData();
         formData.append('photo', this.file, this.file.name)
         let r1 = await axios.post('/api/photos', formData);
+        console.log(r1);
         let r2 = await axios.post('/api/items', {
           title: this.title,
           path: r1.data.path,
-          description: this.description,
+          user: this.user,
+          type: this.type,
+          code: this.code,
         });
+        console.log(r2.data);
         this.addItem = r2.data;
       } catch (error) {
         console.log(error);
@@ -162,7 +182,7 @@ export default {
       try {
         await axios.put("/api/items/" + item._id, {
           title: this.findItem.title,
-          description:this.findItem.description,
+          user: this.findItem.user,
         });
         this.findItem = null;
         this.getItems();

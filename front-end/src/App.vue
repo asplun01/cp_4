@@ -1,14 +1,7 @@
 <template>
 <div id="app">
   <div class="header">
-    <router-link to="/">
-      <div class="logo">
-        <img src="/ordinary.png">
-      </div>
-    </router-link>
-    <div class="title">
-      <h1>Museum of Ordinary Objects</h1>
-    </div>
+    <img src="/images/Banner.png">
   </div>
   <div class="content">
     <router-view />
@@ -28,16 +21,15 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   background: #fff;
+  background-color: #CEE3FF;
   padding: 0px;
   margin: 0px;
 }
 
 /* Header */
-.header {
-  display: flex;
-  padding: 10px 100px 0px 100px;
-  background-color: #5BDEFF;
-  color: #1C454F;
+.header img{
+  width: 100%;
+  height: auto;
 }
 
 .title {
@@ -57,12 +49,13 @@ body {
 .footer {
   height: 50px;
   padding: 20px 100px 0px 100px;
-  background: #e3e3e3;
+  background: #FFBCBA;
   font-size: 12px;
+  text-align: center;
 }
 
 .footer a {
-  color: #000;
+  color: white;
 }
 
 h1 {
